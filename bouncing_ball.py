@@ -8,8 +8,8 @@ W = 800 # screen width
 H = 600 # screen height
 R = 50 # ball radius
 S0 = 100 # initial position of the ball's bottom point
-U0 = 0 # initial velocity
-G = 0.005 # acceleration due to gravity
+U0 = 0.5 # initial velocity
+G = 0.01 # acceleration due to gravity
 K = 0.8 # coefficient of restitution
 
 if S0 > H:
@@ -18,10 +18,10 @@ if S0 > H:
 DELTA = U0 ** 2 + 2 * G * (H - S0)
 print('DELTA=', DELTA)
 
-# T1 is the time the first bounce begins
-if G == 0 and U0 < 0:
+# t1 is the time the first bounce begins
+if G == 0 and U0 > 0:
     t1 = (H - S0) / U0
-    bounces_again = True
+    bounces_again = False
 elif G == 0 or DELTA < 0:
     t1 = math.inf
     bounces_again = False
@@ -36,7 +36,7 @@ print('t1=', t1, 'bounces_again=', bounces_again)
 U1 = -K * (U0 + G * t1) # velocity starting the first bounce
 print('U1=', U1)
 
-T = math.inf if K == 1 else t1 - 2 * U1 / (G * (1 - K)) # time bouncing stops
+T = math.inf if G == 0 or K == 1 else t1 - 2 * U1 / (G * (1 - K)) # time bouncing stops
 print('T=', T)
 
 def get_pos(t: int) -> Vec:
